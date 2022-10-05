@@ -1,6 +1,8 @@
 const app = document.getElementById("app");
 const container = document.createElement("div");
 container.classList.add("container");
+const gridElement = document.createElement("div");
+container.appendChild(gridElement);
 app.appendChild(container);
 
 const grid = [
@@ -15,6 +17,8 @@ const grid = [
 const word = "scrap";
 
 const guess = "scarp".split("");
+
+let currentRow = 2;
 
 const compareGuess = (guess, word) => {
   let result = [];
@@ -42,14 +46,50 @@ const displayGrid = (grid) => {
       const colElement = document.createElement("span");
       colElement.classList.add("letter-tile");
       if (grid[row][col] !== "~") {
-        colElement.classList.add(backgrounds[col]);
+        if (row < currentRow) {
+          colElement.classList.add(backgrounds[col]);
+        }
         colElement.innerHTML = grid[row][col].toUpperCase();
       }
       rowElement.appendChild(colElement);
     }
-    container.appendChild(rowElement);
+    gridElement.appendChild(rowElement);
   }
 };
 
-displayGrid(grid);
+const updateGrid = (grid) => {
+  gridElement.innerHTML = "";
+  displayGrid(grid);
+};
+
+const inputGrid = (letter) => {
+  const row = currentRow;
+  for (let col = 0; col < grid[row].length; col++) {
+    if (grid[row][col] === "~") {
+      grid[row][col] = letter;
+      updateGrid(grid);
+      return;
+    }
+  }
+  return false;
+};
+
+const submitWord = () => {
+  currentRow++;
+};
+
+const keyboardHandler = (event) => {
+  console.log(event.key);
+  if (event.key === "Enter") {
+    submitWord();
+    updateGrid(grid);
+    return;
+  }
+  inputGrid(event.key);
+};
+
+document.body.addEventListener("keypress", keyboardHandler);
+updateGrid(grid);
+inputGrid("W");
+
 //console.log(compareGuess(["s", "c", "a", "r", "p"], ["s", "c", "r", "a", "f"]));
