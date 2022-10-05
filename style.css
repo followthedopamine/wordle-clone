@@ -25,3 +25,18 @@ body {
 .row {
   display: flex;
 }
+
+.G {
+  background-color: green;
+  border-color: green;
+}
+
+.Y {
+  background-color: yellow;
+  border-color: yellow;
+}
+
+.X {
+  background-color: #333;
+}
+
