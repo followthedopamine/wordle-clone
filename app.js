@@ -19,7 +19,7 @@ const grid = [
   ["~", "~", "~", "~", "~"],
 ];
 
-const word = "taxis"; //wordList[~~(Math.random() * wordList.length)];
+const word = "kapai"; //wordList[~~(Math.random() * wordList.length)];
 
 const guessedLetters = [];
 
@@ -72,8 +72,6 @@ const updateKeyboard = () => {
 };
 
 const addToGuessedLetters = (guess) => {
-  // TODO: Fix bug with multiple letter displays E.G. s a,y <- incorrect m b a,g <- correct
-
   const backgrounds = compareGuess(guess, word);
   for (let i = 0; i < guess.length; i++) {
     guessedLetters.push([guess[i], backgrounds[i]]);
@@ -82,18 +80,24 @@ const addToGuessedLetters = (guess) => {
 };
 
 const compareGuess = (guess, word) => {
-  let result = [];
-  for (let i = 0; i < guess.length; i++) {
-    let guessChar = guess[i];
-    let wordChar = word[i];
-    let charCorrectness = "X";
-    if (word.indexOf(guessChar) > -1) {
-      charCorrectness = "Y";
-      if (guessChar === wordChar) {
-        charCorrectness = "G";
-      }
+  let result = new Array(guess.length).fill("X");
+  const wordArr = word.split("");
+  const guessArr = [...guess];
+
+  for (let i = 0; i < guessArr.length; i++) {
+    let guessChar = guessArr[i];
+    let wordChar = word.charAt(i);
+    if (wordChar === guessChar) {
+      result[i] = "G";
+      guessArr[i] = "~";
+      wordArr[i] = "`";
     }
-    result.push(charCorrectness);
+  }
+  for (let i = 0; i < guessArr.length; i++) {
+    let guessChar = guessArr[i];
+    if (wordArr.indexOf(guessChar) > -1) {
+      result[i] = "Y";
+    }
   }
   return result;
 };
@@ -182,11 +186,11 @@ const submitWord = () => {
     if (isWord(guess)) {
       popup(messages[currentRow]);
     } else {
-      currentRow++;
-      if (currentRow === grid.length) {
-        popup(messages[currentRow]);
+      if (currentRow === grid.length - 1) {
+        popup(messages[currentRow + 1]);
       }
     }
+    currentRow++;
   }
 };
 
