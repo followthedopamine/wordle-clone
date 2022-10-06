@@ -149,7 +149,20 @@ const keyboardHandler = (event) => {
   inputGrid(event.key);
 };
 
+const clickHandler = (event) => {
+  if (event.target.classList.contains("keyboard-key")) {
+    const key = event.target.innerHTML;
+    if (key === "ENTER") {
+      submitWord();
+      updateGrid(grid);
+      return;
+    }
+    inputGrid(key);
+  }
+};
+
 document.body.addEventListener("keypress", keyboardHandler);
+container2.addEventListener("click", clickHandler);
 updateGrid(grid);
 inputGrid("W");
 displayKeyboard();
