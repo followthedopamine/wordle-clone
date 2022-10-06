@@ -3,7 +3,10 @@ const container = document.createElement("div");
 container.classList.add("container");
 const gridElement = document.createElement("div");
 container.appendChild(gridElement);
+const container2 = document.createElement("div");
+container2.classList.add("container");
 app.appendChild(container);
+app.appendChild(container2);
 
 const grid = [
   ["s", "c", "a", "r", "f"],
@@ -18,7 +21,63 @@ const word = "scrap";
 
 const guess = "scarp".split("");
 
+const guessedLetters = [];
+
 let currentRow = 2;
+
+const keyboard = [
+  ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
+  ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
+  ["enter", "z", "x", "c", "v", "b", "n", "m", "<"],
+];
+
+const getKeyboardBackgrounds = () => {
+  let keyboardGuessed = [
+    ["u", "u", "u", "u", "u", "u", "u", "u", "u", "u"],
+    ["u", "u", "u", "u", "u", "u", "u", "u", "u"],
+    ["u", "u", "u", "u", "u", "u", "u", "u", "u"],
+  ];
+  for (const letter of guessedLetters) {
+    for (let row = 0; row < keyboard.length; row++) {
+      keyboardGuessed[row][keyboard[row].indexOf(letter[0])] = letter[1];
+    }
+  }
+  return keyboardGuessed;
+};
+
+const displayKeyboard = () => {
+  const keyboardElement = document.createElement("div");
+  const backgrounds = getKeyboardBackgrounds();
+  for (let row = 0; row < keyboard.length; row++) {
+    const keyboardRow = document.createElement("div");
+    keyboardRow.classList.add("keyboard-row");
+    for (let col = 0; col < keyboard[row].length; col++) {
+      const keyboardKey = document.createElement("div");
+      keyboardKey.classList.add("keyboard-key");
+      keyboardKey.classList.add(backgrounds[row][col]);
+      if (keyboard[row][col] === "enter") {
+        keyboardKey.classList.add("enter-key");
+      }
+      keyboardKey.innerHTML = keyboard[row][col].toUpperCase();
+      keyboardRow.appendChild(keyboardKey);
+    }
+    keyboardElement.appendChild(keyboardRow);
+  }
+  container2.appendChild(keyboardElement);
+};
+
+const updateKeyboard = () => {
+  container2.innerHTML = "";
+  displayKeyboard();
+};
+
+const addToGuessedLetters = (guess) => {
+  const backgrounds = compareGuess(guess, word);
+  for (let i = 0; i < guess.length; i++) {
+    guessedLetters.push([guess[i], backgrounds[i]]);
+  }
+  console.log(guessedLetters);
+};
 
 const compareGuess = (guess, word) => {
   let result = [];
@@ -75,6 +134,8 @@ const inputGrid = (letter) => {
 };
 
 const submitWord = () => {
+  addToGuessedLetters(grid[currentRow]);
+  updateKeyboard();
   currentRow++;
 };
 
@@ -91,5 +152,5 @@ const keyboardHandler = (event) => {
 document.body.addEventListener("keypress", keyboardHandler);
 updateGrid(grid);
 inputGrid("W");
-
+displayKeyboard();
 //console.log(compareGuess(["s", "c", "a", "r", "p"], ["s", "c", "r", "a", "f"]));
