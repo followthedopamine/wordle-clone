@@ -46,7 +46,6 @@ const getKeyboardBackgrounds = () => {
 };
 
 const displayKeyboard = () => {
-  // TODO: Change keyboard keys to buttons
   const keyboardElement = document.createElement("div");
   let backgrounds = getKeyboardBackgrounds();
 
@@ -54,7 +53,7 @@ const displayKeyboard = () => {
     const keyboardRow = document.createElement("div");
     keyboardRow.classList.add("keyboard-row");
     for (let col = 0; col < keyboard[row].length; col++) {
-      const keyboardKey = document.createElement("div");
+      const keyboardKey = document.createElement("button");
       keyboardKey.classList.add("keyboard-key");
       keyboardKey.classList.add(backgrounds[row][col]);
       if (keyboard[row][col] === "enter") {
@@ -199,7 +198,6 @@ const submitWord = () => {
     currentRow++;
     updateGrid(grid);
   } else {
-    // TODO: Add animation for failed guess
     console.log("Word not in word list");
     const row = document.getElementById("row" + currentRow);
     const squares = row.children;
