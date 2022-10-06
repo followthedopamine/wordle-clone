@@ -1,3 +1,5 @@
+import { wordList } from "./words.js";
+
 const app = document.getElementById("app");
 const container = document.createElement("div");
 container.classList.add("container");
@@ -18,8 +20,6 @@ const grid = [
 ];
 
 const word = "scrap";
-
-const guess = "scarp".split("");
 
 const guessedLetters = [];
 
@@ -145,10 +145,18 @@ const deleteFromGrid = () => {
   return false;
 };
 
+const isWordInList = (guess) => {
+  guess = guess.join("");
+  return wordList.indexOf(guess.toLowerCase()) !== -1;
+};
+
 const submitWord = () => {
-  addToGuessedLetters(grid[currentRow]);
-  updateKeyboard();
-  currentRow++;
+  const guess = grid[currentRow];
+  if (isWordInList(guess)) {
+    addToGuessedLetters(guess);
+    updateKeyboard();
+    currentRow++;
+  }
 };
 
 const keyboardHandler = (event) => {
