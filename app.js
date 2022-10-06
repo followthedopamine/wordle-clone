@@ -1,6 +1,5 @@
 import { wordList } from "./words.js";
 
-// TODO: Add animation for failed guess
 const app = document.getElementById("app");
 const container = document.createElement("div");
 container.classList.add("container");
@@ -47,7 +46,6 @@ const getKeyboardBackgrounds = () => {
 };
 
 const displayKeyboard = () => {
-  // TODO: Fix bug with multiple letters only displaying last colour
   // TODO: Change keyboard keys to buttons
   const keyboardElement = document.createElement("div");
   let backgrounds = getKeyboardBackgrounds();
@@ -114,6 +112,7 @@ const displayGrid = (grid) => {
     const backgrounds = compareGuess(grid[row], word);
     const rowElement = document.createElement("div");
     rowElement.classList.add("row");
+    rowElement.id = "row" + row;
     for (let col = 0; col < grid[row].length; col++) {
       const colElement = document.createElement("span");
       colElement.classList.add("letter-tile");
@@ -198,6 +197,18 @@ const submitWord = () => {
       }
     }
     currentRow++;
+    updateGrid(grid);
+  } else {
+    // TODO: Add animation for failed guess
+    console.log("Word not in word list");
+    const row = document.getElementById("row" + currentRow);
+    const squares = row.children;
+    for (const square of squares) {
+      square.style.borderColor = "#ad2a2a";
+    }
+    setTimeout(() => {
+      updateGrid(grid);
+    }, 100);
   }
 };
 
@@ -205,7 +216,6 @@ const keyboardHandler = (event) => {
   console.log(event.key);
   if (event.key === "Enter") {
     submitWord();
-    updateGrid(grid);
     return;
   }
   if (event.keyCode === 8) {
@@ -237,4 +247,3 @@ document.body.addEventListener("keydown", keyboardHandler);
 container2.addEventListener("click", clickHandler);
 updateGrid(grid);
 displayKeyboard();
-//console.log(compareGuess(["s", "c", "a", "r", "p"], ["s", "c", "r", "a", "f"]));
