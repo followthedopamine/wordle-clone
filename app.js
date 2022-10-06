@@ -1,5 +1,6 @@
 import { wordList } from "./words.js";
 
+// TODO: Add animation for failed guess
 const app = document.getElementById("app");
 const container = document.createElement("div");
 container.classList.add("container");
@@ -11,7 +12,7 @@ app.appendChild(container);
 app.appendChild(container2);
 
 const grid = [
-  ["k", "a", "p", "p", "a"],
+  ["~", "~", "~", "~", "~"],
   ["~", "~", "~", "~", "~"],
   ["~", "~", "~", "~", "~"],
   ["~", "~", "~", "~", "~"],
@@ -19,7 +20,7 @@ const grid = [
   ["~", "~", "~", "~", "~"],
 ];
 
-const word = "kapai"; //wordList[~~(Math.random() * wordList.length)];
+const word = wordList[~~(Math.random() * wordList.length)];
 
 const guessedLetters = [];
 
@@ -46,8 +47,11 @@ const getKeyboardBackgrounds = () => {
 };
 
 const displayKeyboard = () => {
+  // TODO: Fix bug with multiple letters only displaying last colour
+  // TODO: Change keyboard keys to buttons
   const keyboardElement = document.createElement("div");
-  const backgrounds = getKeyboardBackgrounds();
+  let backgrounds = getKeyboardBackgrounds();
+
   for (let row = 0; row < keyboard.length; row++) {
     const keyboardRow = document.createElement("div");
     keyboardRow.classList.add("keyboard-row");
@@ -72,7 +76,9 @@ const updateKeyboard = () => {
 };
 
 const addToGuessedLetters = (guess) => {
+  // I feel like this doesn't work in some edge case
   const backgrounds = compareGuess(guess, word);
+  guess = [...new Set(guess)];
   for (let i = 0; i < guess.length; i++) {
     guessedLetters.push([guess[i], backgrounds[i]]);
   }
@@ -97,6 +103,7 @@ const compareGuess = (guess, word) => {
     let guessChar = guessArr[i];
     if (wordArr.indexOf(guessChar) > -1) {
       result[i] = "Y";
+      wordArr[wordArr.indexOf(guessChar)] = "`";
     }
   }
   return result;
@@ -178,7 +185,7 @@ const submitWord = () => {
     "Good job",
     "Close one",
     "Phew!",
-    ":(",
+    ":( the word was: " + word,
   ];
   if (isWordInList(guess)) {
     addToGuessedLetters(guess);
