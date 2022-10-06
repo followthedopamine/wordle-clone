@@ -11,7 +11,7 @@ app.appendChild(container);
 app.appendChild(container2);
 
 const grid = [
-  ["~", "~", "~", "~", "~"],
+  ["k", "a", "p", "p", "a"],
   ["~", "~", "~", "~", "~"],
   ["~", "~", "~", "~", "~"],
   ["~", "~", "~", "~", "~"],
@@ -19,7 +19,7 @@ const grid = [
   ["~", "~", "~", "~", "~"],
 ];
 
-const word = wordList[~~(Math.random() * wordList.length)];
+const word = "taxis"; //wordList[~~(Math.random() * wordList.length)];
 
 const guessedLetters = [];
 
@@ -72,6 +72,8 @@ const updateKeyboard = () => {
 };
 
 const addToGuessedLetters = (guess) => {
+  // TODO: Fix bug with multiple letter displays E.G. s a,y <- incorrect m b a,g <- correct
+
   const backgrounds = compareGuess(guess, word);
   for (let i = 0; i < guess.length; i++) {
     guessedLetters.push([guess[i], backgrounds[i]]);
@@ -142,7 +144,8 @@ const deleteFromGrid = () => {
       return;
     }
   }
-  return false;
+  grid[row][grid[row].length - 1] = "~";
+  updateGrid(grid);
 };
 
 const isWordInList = (guess) => {
@@ -150,12 +153,40 @@ const isWordInList = (guess) => {
   return wordList.indexOf(guess.toLowerCase()) !== -1;
 };
 
+const isWord = (guess) => {
+  guess = guess.join("");
+  return guess === word;
+};
+
+const popup = (string) => {
+  const popup = document.createElement("div");
+  popup.classList.add("popup");
+  popup.innerHTML = string;
+  container.appendChild(popup);
+};
+
 const submitWord = () => {
   const guess = grid[currentRow];
+  const messages = [
+    "Epic!",
+    "Impressive",
+    "Nice",
+    "Good job",
+    "Close one",
+    "Phew!",
+    ":(",
+  ];
   if (isWordInList(guess)) {
     addToGuessedLetters(guess);
     updateKeyboard();
-    currentRow++;
+    if (isWord(guess)) {
+      popup(messages[currentRow]);
+    } else {
+      currentRow++;
+      if (currentRow === grid.length) {
+        popup(messages[currentRow]);
+      }
+    }
   }
 };
 
@@ -171,7 +202,7 @@ const keyboardHandler = (event) => {
     deleteFromGrid();
     return;
   }
-  inputGrid(event.key);
+  if (event.keyCode >= 57 && event.keyCode <= 90) inputGrid(event.key);
 };
 
 const clickHandler = (event) => {
