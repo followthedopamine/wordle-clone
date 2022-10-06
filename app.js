@@ -11,19 +11,19 @@ app.appendChild(container);
 app.appendChild(container2);
 
 const grid = [
-  ["s", "c", "a", "r", "f"],
-  ["s", "c", "r", "a", "p"],
+  ["~", "~", "~", "~", "~"],
+  ["~", "~", "~", "~", "~"],
   ["~", "~", "~", "~", "~"],
   ["~", "~", "~", "~", "~"],
   ["~", "~", "~", "~", "~"],
   ["~", "~", "~", "~", "~"],
 ];
 
-const word = "scrap";
+const word = wordList[~~(Math.random() * wordList.length)];
 
 const guessedLetters = [];
 
-let currentRow = 2;
+let currentRow = 0;
 
 const keyboard = [
   ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
@@ -194,6 +194,5 @@ const clickHandler = (event) => {
 document.body.addEventListener("keydown", keyboardHandler);
 container2.addEventListener("click", clickHandler);
 updateGrid(grid);
-inputGrid("W");
 displayKeyboard();
 //console.log(compareGuess(["s", "c", "a", "r", "p"], ["s", "c", "r", "a", "f"]));
