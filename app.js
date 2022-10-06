@@ -133,6 +133,18 @@ const inputGrid = (letter) => {
   return false;
 };
 
+const deleteFromGrid = () => {
+  const row = currentRow;
+  for (let col = 0; col < grid[row].length; col++) {
+    if (grid[row][col] === "~") {
+      grid[row][col - 1] = "~";
+      updateGrid(grid);
+      return;
+    }
+  }
+  return false;
+};
+
 const submitWord = () => {
   addToGuessedLetters(grid[currentRow]);
   updateKeyboard();
@@ -146,22 +158,32 @@ const keyboardHandler = (event) => {
     updateGrid(grid);
     return;
   }
+  if (event.keyCode === 8) {
+    event.preventDefault();
+    deleteFromGrid();
+    return;
+  }
   inputGrid(event.key);
 };
 
 const clickHandler = (event) => {
   if (event.target.classList.contains("keyboard-key")) {
     const key = event.target.innerHTML;
+    console.log(key);
     if (key === "ENTER") {
       submitWord();
       updateGrid(grid);
+      return;
+    }
+    if (key === "&lt;") {
+      deleteFromGrid();
       return;
     }
     inputGrid(key);
   }
 };
 
-document.body.addEventListener("keypress", keyboardHandler);
+document.body.addEventListener("keydown", keyboardHandler);
 container2.addEventListener("click", clickHandler);
 updateGrid(grid);
 inputGrid("W");
