@@ -58,13 +58,22 @@ body {
 }
 
 .popup {
-  position: absolute;
-  font-size: 16px;
   background-color: #bbb;
-  color: #111;
   padding: 10px 20px;
   border-radius: 8px;
   box-shadow: 2px 4px rgba(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.popup-container {
+  position: absolute;
+  font-size: 16px;
+  color: #111;
+}
+
+.replay {
+  margin-top: 10px;
+  cursor: pointer;
 }
 
 .G {

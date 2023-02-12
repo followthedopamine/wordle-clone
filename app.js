@@ -168,10 +168,23 @@ const isWord = (guess) => {
 };
 
 const popup = (string) => {
+  const popupContainer = document.createElement("div");
+  popupContainer.classList.add("popup-container");
   const popup = document.createElement("div");
   popup.classList.add("popup");
   popup.innerHTML = string;
-  container.appendChild(popup);
+  const replay = document.createElement("div");
+  replay.classList.add("popup");
+  replay.classList.add("replay");
+  replay.innerHTML = "Replay";
+  replay.addEventListener("click", handleReplay);
+  popupContainer.appendChild(popup);
+  popupContainer.appendChild(replay);
+  container.appendChild(popupContainer);
+};
+
+const handleReplay = (event) => {
+  document.location.reload();
 };
 
 const submitWord = () => {
