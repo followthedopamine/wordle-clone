@@ -103,8 +103,10 @@ body {
 }
 
 .tutorial {
-  min-width: 350px;
-  width: 18vmax;
+  width: 100vw;
+  height: 100vh;
+  max-width: 400px;
+  max-height: 520px;
   font-size: 16px;
   background-color: #222;
   padding: 1.4vmax 3vmax;
@@ -135,7 +137,6 @@ body {
 
 .close-button {
   float: right;
-  margin-right: -20px;
   background: none;
   font-size: 30px;
   font-weight: 900;
