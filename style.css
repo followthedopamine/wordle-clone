@@ -90,3 +90,77 @@ body {
   background-color: #333;
 }
 
+.tutorial-background {
+  background-color: rgba(0,0,0,.5);
+  position: fixed; 
+  top: -50%; 
+  left: -50%; 
+  width: 200%; 
+  height: 200%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tutorial {
+  min-width: 350px;
+  width: 18vmax;
+  font-size: 16px;
+  background-color: #222;
+  padding: 1.4vmax 3vmax;
+  border-radius: 15px;
+}
+
+.tutorial-letter {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  margin: 4px;
+  border: 2px solid #333;
+}
+
+.examples {
+  list-style: none;
+}
+
+.examples li {
+  margin-top: 20px;
+}
+
+.examples div {
+  margin-top: 8px;
+}
+
+.close-button {
+  float: right;
+  margin-right: -20px;
+  background: none;
+  font-size: 30px;
+  font-weight: 900;
+  color: white;
+  border: none;
+}
+
+.close-button:hover {
+  cursor: pointer;
+}
+
+.tutorial-button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tutorial-button {
+  border: 3px solid #333;
+  background-color: transparent;
+  color: white;
+  font-size: 16px;
+  font-weight: 900;
+  text-transform: uppercase;
+  border-radius: 8px;
+  padding: 5px 10px;
+}
+

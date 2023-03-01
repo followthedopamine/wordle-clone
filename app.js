@@ -254,7 +254,104 @@ const clickHandler = (event) => {
   }
 };
 
+const buildTutorial = () => {
+  const headingText = "How To Play";
+  const subHeadingText = "Guess the Wordle in 6 tries.";
+  const rulesListText = [
+    "Each guess must be a valid 5-letter word.",
+    "The color of the tiles will change to show how close your guess was to the word.",
+  ];
+  const examplesLabelText = "Examples";
+  const examplesText = [
+    ["WEARY", "W is in the word and in the correct spot."],
+    ["PILLS", "I is in the word but in the wrong spot."],
+    ["VAGUE", "U is not in the word in any spot."],
+  ];
+  const correctWord = "WXXXI";
+
+  const background = document.createElement("div");
+  background.classList.add("tutorial-background");
+  const container = document.createElement("div");
+  container.classList.add("tutorial");
+  const closeButton = document.createElement("button");
+  closeButton.innerHTML = "X";
+  closeButton.classList.add("close-button");
+  closeButton.addEventListener("click", closeTutorial);
+  const heading = document.createElement("h1");
+  heading.innerHTML = headingText;
+  const subHeading = document.createElement("h2");
+  subHeading.innerHTML = subHeadingText;
+  const rulesList = document.createElement("ul");
+  rulesListText.forEach((listItem) => {
+    const rule = document.createElement("li");
+    rule.innerHTML = listItem;
+    rulesList.appendChild(rule);
+  });
+  const examplesLabel = document.createElement("h3");
+  examplesLabel.innerHTML = examplesLabelText;
+  const examples = document.createElement("ul");
+  examples.classList.add("examples");
+  examplesText.forEach((example) => {
+    const wordText = example[0];
+    const explanationText = example[1];
+    const letters = wordText.split("");
+    const list = document.createElement("li");
+    const word = document.createElement("div");
+    const explanation = document.createElement("div");
+    explanation.innerHTML = explanationText;
+    for (let i = 0; i < letters.length; i++) {
+      const letter = letters[i];
+      const letterElement = document.createElement("span");
+      letterElement.innerHTML = letter;
+      letterElement.classList.add("tutorial-letter");
+      if (letter == correctWord.charAt(i)) {
+        letterElement.classList.add("G");
+      } else if (correctWord.includes(letter)) {
+        letterElement.classList.add("Y");
+      } else if (letter == "U") {
+        letterElement.classList.add("X");
+      }
+      word.appendChild(letterElement);
+    }
+    list.appendChild(word);
+    list.appendChild(explanation);
+    examples.appendChild(list);
+  });
+  container.appendChild(closeButton);
+  container.appendChild(heading);
+  container.appendChild(subHeading);
+  container.appendChild(rulesList);
+  container.appendChild(examplesLabel);
+  container.appendChild(examples);
+
+  background.appendChild(container);
+  return background;
+};
+
+const buildTutorialButton = () => {
+  const buttonContainer = document.createElement("div");
+  buttonContainer.classList.add("tutorial-button-container");
+  const button = document.createElement("button");
+  button.classList.add("tutorial-button");
+  button.innerHTML = "Tutorial";
+  button.addEventListener("click", openTutorial);
+  buttonContainer.appendChild(button);
+  return buttonContainer;
+};
+
+const closeTutorial = (event) => {
+  tutorial.style.display = "none";
+};
+
+const openTutorial = (event) => {
+  tutorial.style.display = "flex";
+};
+
 document.body.addEventListener("keydown", keyboardHandler);
 container2.addEventListener("click", clickHandler);
 updateGrid(grid);
 displayKeyboard();
+const tutorialButton = buildTutorialButton();
+app.appendChild(tutorialButton);
+const tutorial = buildTutorial();
+app.appendChild(tutorial);
